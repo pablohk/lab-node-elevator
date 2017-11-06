@@ -21,4 +21,4 @@ elevator.call(person);
 console.log("Waiting");
 console.log(elevator.waitingList);
 console.log("Request");
-console.log(elevator.requests);
+console.log(elevator.requests); 
