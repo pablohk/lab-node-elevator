@@ -18,10 +18,30 @@ class Elevator {
     this.log();
   }
 
-  _passengersEnter() {}
-  _passengersLeave() {}
-  floorUp() {}
-  floorDown() {}
+  _passengersEnter() {
+
+  }
+
+  _passengersLeave() {
+
+  }
+  floorUp() {
+    if (this.floor < this.MAXFLOOR){
+      this.floor++;
+    }
+    else {
+      console.log('Error. floor up reached');
+    }
+  }
+
+  floorDown() {
+    if( this.floor > 0){
+      this.floor--;
+    }else {
+      console.log('Error. floor down reached');
+    }
+  }
+
   call() {}
 
   log() {
