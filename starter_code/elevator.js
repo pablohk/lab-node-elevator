@@ -42,7 +42,9 @@ class Elevator {
     }
   }
 
-  call() {}
+  call(person) {
+    this.requests.push(person);
+  }
 
   log() {
     console.log( `Elevator is in floor ${this.floor} and go to ${this.direction} `);
