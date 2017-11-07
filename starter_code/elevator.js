@@ -4,7 +4,7 @@ class Elevator {
     this.MAXFLOOR = 10;
     this.requests = [];
     this.intervalID;
-    this.direction = "stop";
+    this.direction = "up";
     this.passengers = [];
     this.waitingList = [];
   }
@@ -15,12 +15,21 @@ class Elevator {
   }
   stop() {
     //console.log("---- into stop");
-    clearInterval(this.intervalID);
+    if (this.requests.length === 0) {
+      clearInterval(this.intervalID);
+    }
   }
 
   update() {
     //console.log("---- into update");
     this.log();
+    this._passengersEnter();
+    this._passengersLeave();
+    this.stop();
+  }
+
+  _passengersEnter() {
+    //console.log("---- into _passengersEnter");
     for (let i = 0; i < this.waitingList.length; i++) {
       if (this.waitingList[i].originFloor > this.floor) {
         this.floorUp();
@@ -28,24 +37,6 @@ class Elevator {
       if (this.waitingList[i].originFloor < this.floor) {
         this.floorDown();
       }
-      this._passengersEnter();
-    }
-
-    for (let i = 0; i < this.passengers.length; i++) {
-      if (this.passengers[i].destinationFloor > this.floor) {
-        this.floorUp();
-      }
-      if (this.passengers[i].originFloor < this.floor) {
-        this.floorDown();
-      }
-      this._passengersLeave();
-    }
-
-  }
-
-  _passengersEnter() {
-    //console.log("---- into _passengersEnter");
-    for (let i = 0; i < this.waitingList.length; i++) {
       if (this.waitingList[i].originFloor === this.floor) {
         console.log(`${this.waitingList[i].name} has enter the elevator`);
         this.passengers.push(this.waitingList[i]);
@@ -57,9 +48,15 @@ class Elevator {
   _passengersLeave() {
     //console.log("---- into _passengersLeave");
     for (let i = 0; i < this.passengers.length; i++) {
+      if (this.passengers[i].destinationFloor > this.floor) {
+        this.floorUp();
+      }
+      if (this.passengers[i].destinationFloor < this.floor) {
+        this.floorDown();
+      }
       if (this.passengers[i].destinationFloor === this.floor) {
-        console.log(`${this.passengers[i].name} has left the elevator}`);
-        for (let j = 0; j < requests.length; j++) {
+        console.log(`${this.passengers[i].name} has left the elevator`);
+        for (let j = 0; j < this.requests.length; j++) {
           if (this.requests[j].name === this.passengers[i].name) {
             this.requests.splice(j, 1);
           }
